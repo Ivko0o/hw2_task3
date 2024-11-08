@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
+#include <vector>
 
 //This code is for the game "Bulls and Cows" - where a person has to guess a randomly generated number
 
@@ -11,7 +12,7 @@ int NumberGenerator();
 bool CheckUniqueNumber(int number);
 void CalculatingDigits(unsigned number, int& d1, int& d2, int& d3, int& d4);
 void ComparingNumbers(unsigned user_Num, unsigned program_Num, int& count_Bulls, int& count_Cows);
-void GenerateAllCandidates(int candidates[], int& num_Candidates);
+void GenerateAllCandidates(vector<int>& candidates, int& num_Candidates);
 void FilterCandidates(int candidates[], int& num_Candidates, int last_guess, int bulls, int cows);
 void BullsAndCowsSummary(int count_Bulls, int count_Cows);
 
@@ -31,7 +32,7 @@ int main()
 	int program_Win = 0;						//Counting Program wins
 
 
-	cout << "WELCOME THE THE GAME 'BULLS AND COWS'" << endl << endl;
+	cout << "WELCOME TO THE GAME 'BULLS AND COWS'" << endl << endl;
 	cout << "Choose how many games you want to play!" << endl;
 	cout << "1. 1 Game" << endl;
 	cout << "2. 3 Games out of 5" << endl << endl;
@@ -49,9 +50,9 @@ int main()
 	}
 
 	//This generates all possible 4-digit combinations for the program to guess
-	int program_Candidates[5040];
+	vector<int> program_Candidates(5040);
 	int num_Candidates = 0;
-	GenerateAllCandidates(program_Candidates, num_Candidates); // moje bi da se mahne num_Candidates
+	GenerateAllCandidates(program_Candidates, num_Candidates);
 
 	while (rounds--) {
 		cout << "Enter your secret number that the program should guess: ";
@@ -199,7 +200,7 @@ void ComparingNumbers(unsigned user_Num, unsigned program_Num, int& count_Bulls,
 }
 
 // Generate all unique 4-digit numbers as candidates
-void GenerateAllCandidates(int candidates[], int& num_Candidates) {
+void GenerateAllCandidates(vector<int>& candidates, int& num_Candidates) {
 	num_Candidates = 0;
 	for (int i = 1023; i <= 9876; ++i) {
 		if (CheckUniqueNumber(i)) {
@@ -210,7 +211,7 @@ void GenerateAllCandidates(int candidates[], int& num_Candidates) {
 
 //This leaves the potential numbers that could be guessed by the program
 void FilterCandidates(int candidates[], int& num_Candidates, int last_Guess, int bulls, int cows) {
-	int new_candidates[5040];
+	vector<int> new_candidates(5040);
 	int new_count = 0;
 
 	for (int i = 0; i < num_Candidates; ++i) {
